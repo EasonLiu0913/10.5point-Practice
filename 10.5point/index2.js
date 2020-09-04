@@ -149,9 +149,6 @@ document.getElementById('over').addEventListener('click', () => {
 
 const getDataFromServer = async (cards) => {
   try {
-    // ask server whether get another card 
-    const newData={cards};
-    // console.log(JSON.stringify(newData));  
     // 連接伺服器
     const cors = 'https://cors-anywhere.herokuapp.com/';
     const url = 'http://localhost/practice/bankGetCard.php';
@@ -164,14 +161,17 @@ const getDataFromServer = async (cards) => {
         'Content-Type': 'application/json'
       },
       // 傳送的主體資料(json格式)
-      body: '{card:123}'
+      body: JSON.stringify({
+        'cards': JSON.stringify(cards),
+        'total': total
+      })
       
     })
 
  
 
     // 由response物件，剖析出json資料
-    const data = await response;
+    const data = await response.json();
     console.log('data',data);
 
     return false;
